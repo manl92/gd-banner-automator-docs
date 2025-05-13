@@ -7,8 +7,25 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            ul: {
+              listStyleType: 'disc',
+              paddingLeft: '1.5em',
+            },
+            ol: {
+              listStyleType: 'decimal',
+              paddingLeft: '1.5em',
+            },
+          },
+        },
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 }
 export default config 
