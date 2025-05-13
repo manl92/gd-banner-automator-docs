@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GD Banner Automator - Documentation & Tutorial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6624;
+            --primary-light: #FF8347;
+            --primary-lighter: #FFF0E9;
+            --primary-dark: #E55014;
+            --text-dark: #333333;
+            --text-medium: #555555;
+            --text-light: #888888;
+            --bg-light: #F8F9FA;
+            --bg-white: #FFFFFF;
+            --border-light: #E5E7EB;
+            --border-medium: #D1D5DB;
+            --code-bg: #F3F4F6;
+            --success: #43A047;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-white);
+            border-right: 1px solid var(--border-light);
+            padding: 24px 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo-container {
+            padding: 0 24px 24px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 24px;
+        }
+
+        .logo {
+            max-width: 180px;
+            height: auto;
+        }
+
+        .nav-title {
+            padding: 0 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-medium);
+            margin: 16px 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item a {
+            display: block;
+            padding: 8px 24px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item a:hover, .nav-item a.active {
+            background-color: var(--primary-lighter);
+            color: var(--primary);
+            border-left-color: var(--primary);
+        }
+
+        /* Content styles */
+        .content {
+            flex: 1;
+            padding: 40px;
+            margin-left: 280px;
+            max-width: 960px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text-dark);
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 40px 0 16px;
+            color: var(--text-dark);
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            color: var(--text-dark);
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 24px 0 12px;
+            color: var(--text-dark);
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-medium);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--text-medium);
+        }
+
+        code {
+            font-family: Monaco, Menlo, 'Courier New', monospace;
+            background-color: var(--code-bg);
+            padding: 2px 4px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9em;
+        }
+
+        .code-block {
+            background-color: var(--code-bg);
+            padding: 16px;
+            border-radius: var(--radius-md);
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        .img-container {
+            margin: 24px 0;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .img-caption {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .note {
+            background-color: var(--primary-lighter);
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            margin: 24px 0;
+            border-radius: var(--radius-sm);
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-medium);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            border: 1px solid var(--border-medium);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                padding: 16px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 24px;
+            }
+
+            .logo-container {
+                padding: 0 0 16px;
+            }
+
+            .nav-title, .nav-item a {
+                padding-left: 16px;
+            }
+        }
+
+        .toc {
+            background-color: var(--bg-white);
+            border-radius: var(--radius-md);
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toc-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .toc-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 8px;
+        }
+
+        .toc-list a {
+            color: var(--text-medium);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .toc-list a:hover {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .toc-list .toc-sub {
+            padding-left: 16px;
+            margin-top: 6px;
+        }
+
+        .top-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .top-button.visible {
+            opacity: 1;
+        }
+
+        .top-button:hover {
+            background-color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="logo-container">
+            <img src="https://i.imgur.com/Nkafdsp.png" alt="GD Banner Automator" class="logo">
+        </div>
+
+        <div class="nav-title">Navigation</div>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#documentation" class="active" data-tab="documentation">Documentation</a></li>
+            <li class="nav-item"><a href="#tutorial" data-tab="tutorial">Tutorial</a></li>
+        </ul>
+
+        <div class="nav-title">Documentation</div>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#overview">Overview</a></li>
+            <li class="nav-item"><a href="#installation">Installation</a></li>
+            <li class="nav-item"><a href="#preparing-figma">Preparing Your Figma Document</a></li>
+            <li class="nav-item"><a href="#preparing-data">Preparing Your Data</a></li>
+            <li class="nav-item"><a href="#using-plugin">Using the Plugin</a></li>
+            <li class="nav-item"><a href="#advanced">Advanced Features</a></li>
+            <li class="nav-item"><a href="#best-practices">Best Practices</a></li>
+            <li class="nav-item"><a href="#troubleshooting">Troubleshooting</a></li>
+        </ul>
+
+        <div class="nav-title">Tutorial</div>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#tutorial-prerequisites">Prerequisites</a></li>
+            <li class="nav-item"><a href="#tutorial-step1">Step 1: Prepare Template</a></li>
+            <li class="nav-item"><a href="#tutorial-step2">Step 2: Structure Data</a></li>
+            <li class="nav-item"><a href="#tutorial-step3">Step 3: Upload Data</a></li>
+            <li class="nav-item"><a href="#tutorial-step4">Step 4: Map & Generate</a></li>
+            <li class="nav-item"><a href="#tutorial-step5">Step 5: Export</a></li>
+            <li class="nav-item"><a href="#tutorial-tips">Tips & Tricks</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <div class="tabs">
+            <div class="tab active" data-tab="documentation">Documentation</div>
+            <div class="tab" data-tab="tutorial">Tutorial</div>
+        </div>
+
+        <!-- Documentation Tab -->
+        <div id="documentation" class="tab-content active">
+            <h1>GD Banner Automator - Documentation</h1>
+
+            <div class="toc">
+                <div class="toc-title">Table of Contents</div>
+                <ul class="toc-list">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#installation">Installation</a></li>
+                    <li><a href="#preparing-figma">Preparing Your Figma Document</a></li>
+                    <li><a href="#preparing-data">Preparing Your Data</a></li>
+                    <li><a href="#using-plugin">Using the Plugin</a>
+                        <ul class="toc-sub">
+                            <li><a href="#step-1-upload-data">Step 1: Upload Data</a></li>
+                            <li><a href="#step-2-configure-and-generate">Step 2: Configure and Generate</a></li>
+                            <li><a href="#export-options">Export Options</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#advanced">Advanced Features</a></li>
+                    <li><a href="#best-practices">Best Practices</a></li>
+                    <li><a href="#troubleshooting">Troubleshooting</a></li>
+                </ul>
+            </div>
+
+            <section id="overview">
+                <h2>Overview</h2>
+                <p>GD Banner Automator is a Figma plugin designed to streamline the creation of multiple banner ad variants within Figma. It automates the process of generating similar designs based on structured data from spreadsheets, significantly reducing manual effort and ensuring consistency across banner sets.</p>
+                
+                <p>The plugin allows you to:</p>
+                <ul>
+                    <li>Upload data from Excel/CSV files</li>
+                    <li>Map spreadsheet columns to Figma layers</li>
+                    <li>Generate multiple banner variants automatically</li>
+                    <li>Export the generated banners as image files</li>
+                </ul>
+                
+                <div class="img-container">
+                    <img src="https://i.imgur.com/Nkafdsp.png" alt="GD Banner Automator Plugin Interface">
+                    <div class="img-caption">GD Banner Automator interface</div>
+                </div>
+            </section>
+
+            <section id="installation">
+                <h2>Installation</h2>
+                
+                <h3>Install from Manifest File</h3>
+                <p>The GD Banner Automator plugin is installed using a manifest file:</p>
+                <ol>
+                    <li>Download the plugin files from the Gera Dovana SharePoint: <a href="https://geradovanalt.sharepoint.com/:f:/s/LTMRKGDG/EuzB1cuj_iBEqm5j9zAwZhoBhUxz5Fr0afNjejMgXZZrlA?e=CHHAiS" target="_blank">Download Plugin Files</a></li>
+                    <li>In Figma, click on the menu icon (≡) in the top-left corner</li>
+                    <li>Go to "Plugins" &gt; "Development" &gt; "Import plugin from manifest..."</li>
+                    <li>Navigate to and select the manifest.json file from the downloaded plugin files</li>
+                    <li>Click "Open" to complete the installation</li>
+                </ol>
+                
+                <div class="note">
+                    <div class="note-title">Note</div>
+                    <p>When installed from manifest, the plugin will appear in the "Development" section of your plugins menu. To access it, navigate to Plugins > Development > GD Banner Automator.</p>
+                </div>
+                
+                <p>Once installed, you can access the plugin from the Plugins > Development menu in Figma.</p>
+            </section>
+
+            <section id="preparing-figma">
+                <h2>Preparing Your Figma Document</h2>
+                <p>Before using the plugin, you need to set up your Figma document properly:</p>
+                
+                <ol>
+                    <li><strong>Create or open a document containing templates:</strong> Design your banner templates on a dedicated page in your Figma document. These will serve as the base templates for generating variants.</li>
+                    
+                    <li><strong>Naming convention:</strong> Use clear, descriptive names for your layers that correspond to the data fields in your spreadsheet. For example, if you have a column named "Product_Name" in your spreadsheet, name the corresponding text layer "Product_Name" in your Figma design.</li>
+                    
+                    <li><strong>Special naming for price layers:</strong> For advanced price formatting, use the following naming convention:
+                        <ul>
+                            <li><code>price_[ColumnName]_main</code> - For the main part of the price (e.g., "12")</li>
+                            <li><code>price_[ColumnName]_decimal</code> - For the decimal part (e.g., "99")</li>
+                            <li><code>price_[ColumnName]_currency</code> - For the currency symbol (e.g., "€")</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Image layers:</strong> For layers that will display images from URLs in your spreadsheet, ensure they can accept image fills (rectangles, ellipses, frames, etc.).</li>
+                    
+                    <li><strong>Visibility layers:</strong> Layers that will be shown/hidden based on data should have names that match the corresponding column in your spreadsheet.</li>
+                </ol>
+            </section>
+
+            <section id="preparing-data">
+                <h2>Preparing Your Data</h2>
+                <p>The plugin accepts data in Excel (.xlsx, .xls) or CSV format. Here's how to structure your data:</p>
+                
+                <ol>
+                    <li><strong>Headers row:</strong> The first row of your spreadsheet should contain column headers that will be mapped to layer names in your Figma design.</li>
+                    
+                    <li><strong>Data rows:</strong> Each subsequent row represents a single banner variant.</li>
+                    
+                    <li><strong>Data types:</strong>
+                        <ul>
+                            <li><strong>Text:</strong> Any text content that will be applied to text layers</li>
+                            <li><strong>Images:</strong> Direct HTTP/HTTPS URLs to images that will be applied to layers with image fills. We recommend using <a href="https://postimages.org/" target="_blank">https://postimages.org/</a> for hosting your images. Make sure to copy the "Direct Link" URL when uploading.</li>
+                            <li><strong>Visibility:</strong> Boolean values ("true"/"false", "yes"/"no", "1"/"0") to control layer visibility</li>
+                            <li><strong>Colors:</strong> Hex codes (#RRGGBB) or RGB/RGBA values for fill colors</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Special considerations:</strong>
+                        <ul>
+                            <li><strong>Price formatting:</strong> For detailed price control, you can have separate columns for main price, decimal, and currency</li>
+                            <li><strong>Boolean values:</strong> The plugin intelligently detects boolean-like values and can use them to control layer visibility</li>
+                            <li><strong>URLs:</strong> The plugin processes image URLs, optimizing and resizing them as needed</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+
+            <section id="using-plugin">
+                <h2>Using the Plugin</h2>
+                
+                <h3 id="step-1-upload-data">Step 1: Upload Data</h3>
+                <p>Launch the plugin from the Plugins menu in Figma. In the initial screen, you have three options to upload your data:</p>
+                <ul>
+                    <li>Drag and drop an Excel/CSV file into the upload area</li>
+                    <li>Click "Browse Files" to select a file from your computer</li>
+                    <li>Paste data directly from your clipboard (e.g., from Excel or Google Sheets)</li>
+                </ul>
+                
+                <h3 id="step-2-configure-and-generate">Step 2: Configure and Generate</h3>
+                <p>After uploading your data, the plugin will display the configuration screen:</p>
+                
+                <h4>Select Template:</h4>
+                <ul>
+                    <li>Browse through available pages in your Figma document</li>
+                    <li>Click on a page to select it as your template</li>
+                    <li>The plugin will scan the page for compatible layers</li>
+                </ul>
+                
+                <h4>Map Data to Layers:</h4>
+                <ul>
+                    <li>The plugin automatically suggests mappings based on layer and column names, and is almost always successful with auto-mapping</li>
+                    <li>Custom mapping is primarily needed for debugging errors or special cases</li>
+                    <li>To customize mappings if needed, check "Customize layer mapping"</li>
+                    <li>For each layer, select the appropriate data column from the dropdown</li>
+                </ul>
+                
+                <h4>Generate Banners:</h4>
+                <ul>
+                    <li>Once you're satisfied with the mapping, click "Generate Banners"</li>
+                    <li>The plugin will create duplicates of your template for each row in your data</li>
+                    <li>It will apply the mapped data to the appropriate layers in each duplicate</li>
+                    <li>The generated banners will appear on a new page called "✅ Generated variants"</li>
+                </ul>
+                
+                <h4>Export Generated Banners:</h4>
+                <ul>
+                    <li>After generation completes, the export options will appear</li>
+                    <li>Select the desired format (PNG, JPG, SVG, PDF) and scale</li>
+                    <li>Choose which frames to export using the checkboxes</li>
+                    <li>Click "Download Selected Frames (ZIP)" to export</li>
+                </ul>
+                
+                <h3 id="export-options">Export Options</h3>
+                <p>The plugin provides flexible export options:</p>
+                <ul>
+                    <li><strong>Format:</strong> Choose between PNG, JPG, SVG, or PDF (PNG or JPG at 1x scale is recommended for most uses)</li>
+                    <li><strong>Scale:</strong> Select from 1x, 2x, 3x, or 4x resolution (1x is recommended for standard use)</li>
+                    <li><strong>Frame selection:</strong> Choose which specific frames to export</li>
+                    <li><strong>Output:</strong> Exports are packaged in a ZIP file with an organized folder structure:
+                        <ul>
+                            <li>Root folder named <code>[project_name]_export_[MM-DD_HH MM]</code> (using current timestamp)</li>
+                            <li>Each generation session gets a subfolder with its timestamp</li>
+                            <li>Inside each session folder, rows are organized in <code>row_[XX]</code> folders</li>
+                            <li>Individual banner files are named based on the variant with clean file names, preserving capitalization</li>
+                            <li>File extensions match the selected format (.png, .jpg, etc.)</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="advanced">
+                <h2>Advanced Features</h2>
+                
+                <h3>Intelligent Data Type Detection</h3>
+                <p>The plugin automatically detects the appropriate mapping type based on your data:</p>
+                <ul>
+                    <li>URLs are mapped to image layers</li>
+                    <li>Boolean values (true/false, yes/no, 1/0) are mapped to layer visibility</li>
+                    <li>Text content is mapped to text layers</li>
+                    <li>Color codes are mapped to fills</li>
+                </ul>
+                
+                <h3>Automated Price Formatting</h3>
+                <p>For price display, the plugin offers advanced formatting:</p>
+                <ul>
+                    <li>Split price values into main number, decimal, and currency components</li>
+                    <li>Auto-adjusts font size for prices with 3+ digits</li>
+                    <li>Maintains consistent scaling across all price components</li>
+                </ul>
+                
+                <h3>Smart Template Selection</h3>
+                <p>The plugin intelligently skips generating certain templates based on data:</p>
+                <ul>
+                    <li>Skips templates with "Discount" layers when discount data is empty</li>
+                    <li>Skips templates with "New_price" layers when new price data is empty</li>
+                    <li>Handles various price display scenarios based on available data</li>
+                </ul>
+                
+                <h4>Price and Discount Rules</h4>
+                <p>The plugin follows specific rules when deciding which templates to generate based on price and discount data:</p>
+                <ul>
+                    <li><strong>Rule 1:</strong> If a template contains a "Discount" layer and the discount data field is empty, that template will be skipped</li>
+                    <li><strong>Rule 2:</strong> If a template contains a "New_price" layer but the new price data is empty, that template will be skipped</li>
+                    <li><strong>Rule 3:</strong> If a template has both "New_price" and "Regular_price" layers, but only new price data is available (regular price is empty), that template will be skipped</li>
+                    <li><strong>Rule 4:</strong> If a template has only a "New_price" layer (no "Regular_price" layer), but both new price and regular price data are available, that template will be skipped</li>
+                </ul>
+                
+                <h5>Common Scenarios</h5>
+                <table style="width:100%; border-collapse: collapse; margin: 16px 0; border-radius: var(--radius-md); overflow: hidden;">
+                    <thead style="background-color: var(--primary-lighter);">
+                        <tr>
+                            <th style="padding: 10px; text-align: left; border: 1px solid var(--border-light);">Data Available</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid var(--border-light);">Templates That Will Generate</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid var(--border-light);">Templates That Will Skip</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background-color: var(--bg-white);">
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Regular_price only</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with Regular_price only</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with New_price or Discount layers</td>
+                        </tr>
+                        <tr style="background-color: var(--bg-light);">
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">New_price only</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with New_price only</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with both price layers or Discount layers</td>
+                        </tr>
+                        <tr style="background-color: var(--bg-white);">
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Regular_price + New_price</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with both price layers</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with New_price only; Templates with Discount layers</td>
+                        </tr>
+                        <tr style="background-color: var(--bg-light);">
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Regular_price + Discount</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with Regular_price and Discount</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with New_price layers</td>
+                        </tr>
+                        <tr style="background-color: var(--bg-white);">
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">All three (Regular_price + New_price + Discount)</td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">
+                                Templates with both price layers (Regular_price & New_price);<br>
+                                Templates with Discount layers;<br>
+                                Templates with all three layers
+                            </td>
+                            <td style="padding: 10px; border: 1px solid var(--border-light);">Templates with only New_price (no Regular_price)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="note">
+                    <div class="note-title">Tip</div>
+                    <p>These rules allow you to create different template designs for various pricing scenarios (regular price only, discount price only, both prices together) and the plugin will automatically select the appropriate template based on the available data for each row.</p>
+                </div>
+                
+                <h3>Image Processing</h3>
+                <p>The plugin optimizes images before applying them:</p>
+                <ul>
+                    <li>Automatically checks image dimensions</li>
+                    <li>Automatically resizes images over 4000px to comply with Figma's limits</li>
+                    <li>Caches processed images to improve performance</li>
+                    <li>Handles various image formats and transparency options</li>
+                </ul>
+                
+                <h3>Intelligent Text Sizing</h3>
+                <p>The plugin automatically adjusts text size based on content length:</p>
+                <ul>
+                    <li>For <code>Offer_name</code> layers, scales up text size for short text (25 or fewer characters get 1.5x size increase, 26-35 characters get 1.2x)</li>
+                    <li>For price layers, reduces font size by 5% when the main price has 3 or more digits</li>
+                    <li>Maintains consistent scaling across related components (main number, decimal, currency)</li>
+                </ul>
+            </section>
+
+            <section id="best-practices">
+                <h2>Best Practices</h2>
+                
+                <ol>
+                    <li><strong>Consistent naming:</strong> Use consistent naming conventions between your spreadsheet columns and Figma layers to enable automatic mapping.</li>
+                    
+                    <li><strong>Layer organization:</strong> Keep your template designs clean and well-organized, with properly named layers.</li>
+                    
+                    <li><strong>Test with sample data:</strong> Before processing large datasets, test with a few rows to ensure your mappings work as expected.</li>
+                    
+                    <li><strong>Image dimensions:</strong> For best results, prepare images with appropriate dimensions before including their URLs in your data.</li>
+                    
+                    <li><strong>Boolean naming:</strong> For layers that should be toggled on/off, use clear yes/no or true/false values in your data.</li>
+                    
+                    <li><strong>Template variations:</strong> Create multiple template designs to handle different data scenarios (with/without discounts, with/without partner logos, etc.).</li>
+                </ol>
+            </section>
+
+            <section id="troubleshooting">
+                <h2>Troubleshooting</h2>
+                
+                <h3>Common Issues</h3>
+                
+                <h4>Plugin doesn't recognize layers:</h4>
+                <ul>
+                    <li>Ensure layers are properly named and match column headers</li>
+                    <li>Check that layers are not locked or hidden</li>
+                    <li>Verify that text layers can be edited</li>
+                </ul>
+                
+                <h4>Images not displaying correctly:</h4>
+                <ul>
+                    <li>Verify image URLs are valid and accessible</li>
+                    <li>Check that the layer can accept image fills</li>
+                    <li>Ensure the layer is not locked or has effects that might interfere with fills</li>
+                </ul>
+                
+                <div class="note">
+                    <div class="note-title">Tip</div>
+                    <p>If images do not generate, check the image links in your data file. They MUST be direct links. A direct link format looks like this: <code>https://i.postimg.cc/W3KhFzBT/TVBOKSTAS-3.jpg</code> (notice the image filename is included in the URL). When using <a href="https://postimages.org/" target="_blank">postimages.org</a>, be sure to copy the "Direct link" URL, not the page URL.</p>
+                </div>
+                
+                <h4>Generation taking too long:</h4>
+                <ul>
+                    <li>For large datasets, try generating in smaller batches</li>
+                    <li>Optimize image URLs to point to appropriately sized images</li>
+                    <li>Close other resource-intensive applications</li>
+                </ul>
+                
+                <h4>Export issues:</h4>
+                <ul>
+                    <li>Ensure you have selected at least one frame to export</li>
+                    <li>Try a different export format if one is not working</li>
+                    <li>For large exports, be patient as the ZIP file is created</li>
+                </ul>
+                
+                <h3>Getting Help</h3>
+                <p>If you encounter issues not covered in this documentation:</p>
+                <ol>
+                    <li>Check for plugin updates that might resolve the issue</li>
+                    <li>Contact Lukas Valeika via email at <a href="mailto:lukas.valeika@geradovana.lt">lukas.valeika@geradovana.lt</a> or through Slack</li>
+                    <li>Include details about your Figma version, operating system, and steps to reproduce the issue</li>
+                </ol>
+            </section>
+        </div>
+
+        <!-- Tutorial Tab -->
+        <div id="tutorial" class="tab-content">
+            <h1>GD Banner Automator Tutorial</h1>
+
+            <div class="toc">
+                <div class="toc-title">Table of Contents</div>
+                <ul class="toc-list">
+                    <li><a href="#tutorial-prerequisites">Prerequisites</a></li>
+                    <li><a href="#tutorial-overview">Tutorial Overview</a></li>
+                    <li><a href="#tutorial-step1">Step 1: Prepare Your Figma Template</a></li>
+                    <li><a href="#tutorial-step2">Step 2: Structure Your Data Spreadsheet</a></li>
+                    <li><a href="#tutorial-step3">Step 3: Launch the Plugin and Upload Data</a></li>
+                    <li><a href="#tutorial-step4">Step 4: Map Data to Layers and Generate</a></li>
+                    <li><a href="#tutorial-step5">Step 5: Export the Generated Banners</a></li>
+                    <li><a href="#tutorial-tips">Additional Tips and Tricks</a></li>
+                    <li><a href="#tutorial-troubleshooting">Troubleshooting During the Process</a></li>
+                </ul>
+            </div>
+
+            <p>This step-by-step tutorial will guide you through the process of using the GD Banner Automator Figma plugin to create multiple banner variants from a single template and data source.</p>
+
+            <section id="tutorial-prerequisites">
+                <h2>Prerequisites</h2>
+                <p>Before starting this tutorial, make sure you have:</p>
+                <ol>
+                    <li>The GD Banner Automator plugin installed in Figma (see <a href="#installation">Installation</a> section and download from <a href="https://geradovanalt.sharepoint.com/:f:/s/LTMRKGDG/EuzB1cuj_iBEqm5j9zAwZhoBhUxz5Fr0afNjejMgXZZrlA?e=CHHAiS" target="_blank">SharePoint</a>)</li>
+                    <li>A Figma document with banner templates</li>
+                    <li>Data in Excel (.xlsx) or CSV format, or data copied to your clipboard</li>
+                </ol>
+            </section>
+
+            <section id="tutorial-overview">
+                <h2>Tutorial Overview</h2>
+                <p>We'll walk through the complete workflow:</p>
+                <ol>
+                    <li>Preparing your Figma template</li>
+                    <li>Structuring your data spreadsheet</li>
+                    <li>Using the plugin to generate banner variants</li>
+                    <li>Exporting the generated banners</li>
+                </ol>
+                <p>Let's get started!</p>
+            </section>
+
+            <section id="tutorial-step1">
+                <h2>Step 1: Prepare Your Figma Template</h2>
+                <p>A well-prepared template is crucial for successful automation. Let's set up a template page:</p>
+                
+                <ol>
+                    <li><strong>Create a dedicated page</strong> for your template designs:
+                        <ul>
+                            <li>Click the "+" icon next to Pages in the Figma sidebar</li>
+                            <li>Name the page something descriptive like "Banner Templates"</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Design your banner template(s)</strong> within this page:
+                        <ul>
+                            <li>Create frames for each banner variation you need</li>
+                            <li>Add all necessary design elements (text, shapes, images)</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Name your layers correctly</strong> to match your data:
+                        <ul>
+                            <li>For text layers that will change, use names that match your data columns</li>
+                            <li>For image layers, use names that match the column with image URLs</li>
+                            <li>For visibility-controlled elements, use names that match boolean columns</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Set up special price layers</strong> if needed:
+                        <ul>
+                            <li>For main price: <code>price_Price_main</code></li>
+                            <li>For decimal part: <code>price_Price_decimal</code></li>
+                            <li>For currency symbol: <code>price_Price_currency</code></li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Test your template</strong> design to ensure all elements are positioned correctly and all text is editable.</li>
+                </ol>
+                
+                <div class="note">
+                    <div class="note-title">Tip</div>
+                    <p>Make sure your layer names are descriptive and easy to match with your data columns. Clear naming makes the mapping process much smoother!</p>
+                </div>
+            </section>
+
+            <section id="tutorial-step2">
+                <h2>Step 2: Structure Your Data Spreadsheet</h2>
+                <p>Now, let's prepare your data file. You can use Excel, Google Sheets (export as xlsx), or any spreadsheet software that can produce Excel or CSV files.</p>
+                
+                <ol>
+                    <li><strong>Create a spreadsheet</strong> with the following structure:
+                        <ul>
+                            <li>First row: Column headers that match your layer names</li>
+                            <li>Subsequent rows: Data for each banner variant</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Example spreadsheet columns:</strong>
+                        <ul>
+                            <li><code>Product_Name</code> - Text content for product name layer</li>
+                            <li><code>Offer_Description</code> - Text content for offer description layer</li>
+                            <li><code>Product_Image</code> - Direct URLs to product images (use <a href="https://postimages.org/" target="_blank">postimages.org</a> and copy the "Direct link" URL)</li>
+                            <li><code>Price</code> - Price values (e.g., "12.99€")</li>
+                            <li><code>Discount</code> - Discount values or boolean for showing discount</li>
+                            <li><code>Show_Logo</code> - Boolean values ("true"/"false") to control logo visibility</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Formatting considerations:</strong>
+                        <ul>
+                            <li>Text: Regular text entries (keep length appropriate for your design)</li>
+                            <li>Images: Full HTTP/HTTPS URLs to accessible images</li>
+                            <li>Visibility: Boolean values ("true"/"false", "yes"/"no", or "1"/"0")</li>
+                            <li>Colors: Hex codes (#RRGGBB) or RGB values (rgb(255,0,0))</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Save your spreadsheet</strong> as .xlsx, .xls, or .csv format.</li>
+                </ol>
+                
+                <div class="code-block">
+                    Example spreadsheet content:
+                    <pre>
+Product_Name,Offer_Description,Product_Image,Price,Discount,Show_Logo
+"Summer T-Shirt","Limited offer!","https://example.com/t-shirt.jpg","19.99€","20%","true"
+"Beach Shorts","New collection","https://example.com/shorts.jpg","24.99€","","false"
+"Sunglasses","Bestseller","https://example.com/sunglasses.jpg","39.99€","15%","true"</pre>
+                </div>
+            </section>
+
+            <section id="tutorial-step3">
+                <h2>Step 3: Launch the Plugin and Upload Data</h2>
+                <p>Now, let's use the plugin to generate banner variants:</p>
+                
+                <ol>
+                    <li><strong>Open your Figma document</strong> with the template page.</li>
+                    
+                    <li><strong>Launch the GD Banner Automator plugin:</strong>
+                        <ul>
+                            <li>Click on the menu icon (≡) in the top-left corner</li>
+                            <li>Navigate to Plugins > Development > GD Banner Automator</li>
+                            <li>(If you haven't installed the plugin yet, download it from <a href="https://geradovanalt.sharepoint.com/:f:/s/LTMRKGDG/EuzB1cuj_iBEqm5j9zAwZhoBhUxz5Fr0afNjejMgXZZrlA?e=CHHAiS" target="_blank">SharePoint</a> and follow the <a href="#installation">installation instructions</a>)</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Upload your data</strong> using one of these methods:
+                        <ul>
+                            <li>Drag and drop your Excel/CSV file into the upload area</li>
+                            <li>Click "Browse Files" to select your file</li>
+                            <li>Copy data from your spreadsheet and click anywhere in the upload area to paste</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Wait for the data to process</strong> - the plugin will read your file and prepare it for mapping.</li>
+                </ol>
+            </section>
+
+            <section id="tutorial-step4">
+                <h2>Step 4: Map Data to Layers and Generate</h2>
+                <p>After uploading your data, you'll see the configuration screen:</p>
+                
+                <ol>
+                    <li><strong>Select template:</strong>
+                        <ul>
+                            <li>Browse through the available pages in the grid</li>
+                            <li>Click on your template page to select it</li>
+                            <li>The plugin will scan the page for compatible layers</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Review automatic mappings:</strong>
+                        <ul>
+                            <li>The plugin tries to match column names to layer names</li>
+                            <li>For custom mapping, check "Customize layer mapping"</li>
+                            <li>For each layer, select the appropriate data column from the dropdown</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Generate banners:</strong>
+                        <ul>
+                            <li>Once mapping is set up, click "Generate Banners"</li>
+                            <li>The plugin will show a loading indicator while processing</li>
+                            <li>Wait for the generation to complete</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Review generated banners:</strong>
+                        <ul>
+                            <li>The plugin will create or use a page called "✅ Generated variants"</li>
+                            <li>All banner variants will be organized on this page</li>
+                            <li>Each row from your data will have corresponding banner variants</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <div class="note">
+                    <div class="note-title">Important</div>
+                    <p>If the plugin skips generating certain templates, check the generation summary. It will show skip reasons (e.g., missing discount data for a template with discount layers).</p>
+                </div>
+            </section>
+
+            <section id="tutorial-step5">
+                <h2>Step 5: Export the Generated Banners</h2>
+                <p>After generating your banners, you can export them as image files:</p>
+                
+                <ol>
+                    <li><strong>Manually review and adjust banners if needed:</strong>
+                        <ul>
+                            <li>Before exporting, take time to review the generated variants</li>
+                            <li>Make manual corrections for photo positioning, cropping, or text breaking issues</li>
+                            <li>Adjust layer properties if needed (size, position, opacity, etc.)</li>
+                            <li>Check that text flows properly and doesn't overflow its containers</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Configure export options:</strong>
+                        <ul>
+                            <li>Select the desired format (PNG or JPG at 1x scale is recommended for most uses)</li>
+                            <li>Choose the scale (1x is recommended for standard use)</li>
+                            <li>Select which frames to export using the checkboxes</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Initiate export:</strong>
+                        <ul>
+                            <li>Click "Download Selected Frames (ZIP)"</li>
+                            <li>Wait for the export process to complete</li>
+                            <li>The plugin will show progress updates during export</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Save the ZIP file:</strong>
+                        <ul>
+                            <li>When export completes, your browser will download a ZIP file</li>
+                            <li>The file contains all exported banners organized in folders</li>
+                            <li>Folders are structured by generation timestamp and row number</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <div class="note">
+                    <div class="note-title">Tip</div>
+                    <p>While the plugin does its best to automate banner creation, a quick manual review before export can help catch any issues that might need fine-tuning, especially with complex layouts or variable-length content.</p>
+                </div>
+            </section>
+
+            <section id="tutorial-tips">
+                <h2>Additional Tips and Tricks</h2>
+                
+                <h3>Handling Different Banner Types</h3>
+                <p>If you have different banner formats (e.g., square, horizontal, vertical):</p>
+                <ol>
+                    <li>Place all template variations on the same template page</li>
+                    <li>The plugin will generate variants for each template using the same data</li>
+                    <li>Templates without matching data will be skipped automatically</li>
+                </ol>
+                
+                <h3>Working with Price Formatting</h3>
+                <p>For better control over price display:</p>
+                <ol>
+                    <li><strong>Split your price data</strong> into components in your spreadsheet:
+                        <ul>
+                            <li><code>Price_Main</code> (e.g., "12")</li>
+                            <li><code>Price_Decimal</code> (e.g., "99")</li>
+                            <li><code>Price_Currency</code> (e.g., "€")</li>
+                        </ul>
+                    </li>
+                    
+                    <li><strong>Name your layers accordingly:</strong>
+                        <ul>
+                            <li><code>price_Price_Main_main</code></li>
+                            <li><code>price_Price_Decimal_decimal</code></li>
+                            <li><code>price_Price_Currency_currency</code></li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h3>Optimizing Image Usage</h3>
+                <p>For better performance with images:</p>
+                <ol>
+                    <li>Use <a href="https://postimages.org/" target="_blank">postimages.org</a> for hosting your images</li>
+                    <li>Always copy the "Direct link" URL after uploading</li>
+                    <li>Use web-optimized formats (JPEG, PNG) with reasonable file sizes</li>
+                    <li>Images over 4000px will be automatically resized by the plugin, but for best performance, prepare images at appropriate dimensions before uploading</li>
+                </ol>
+                
+                <h3>Updating Generated Banners</h3>
+                <p>If you need to make changes:</p>
+                <ol>
+                    <li>Modify your data and/or template as needed</li>
+                    <li>Run the plugin again to generate a new set of banners</li>
+                    <li>Each generation creates a new container on the Generated variants page</li>
+                </ol>
+            </section>
+
+            <section id="tutorial-troubleshooting">
+                <h2>Troubleshooting During the Process</h2>
+                
+                <h3>Issue: Layers not updating correctly</h3>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Check if layer names exactly match column headers (case-sensitive)</li>
+                    <li>Ensure layers are not locked or hidden</li>
+                    <li>Verify text layers have editable text content</li>
+                </ul>
+                
+                <h3>Issue: Images not displaying</h3>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Check if image URLs are valid and accessible</li>
+                    <li>Ensure image layers can accept fills (rectangles, frames, etc.)</li>
+                    <li>Try different image formats if one isn't working</li>
+                </ul>
+                
+                <h3>Issue: Missing variants</h3>
+                <p><strong>Solution:</strong></p>
+                <ul>
+                    <li>Check if templates with "Discount" layers are being skipped due to empty discount data</li>
+                    <li>Verify that price data matches the expected format for price-related templates</li>
+                    <li>Review the generation summary for skip reasons</li>
+                </ul>
+                
+                <div class="note">
+                    <div class="note-title">Conclusion</div>
+                    <p>Congratulations! You've learned how to use the GD Banner Automator plugin to automate banner creation in Figma. This workflow can save you hours of repetitive work when creating multiple banner variants.</p>
+                    <p>Remember that you can always return to this tutorial as a reference when using the plugin for future projects.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="top-button" id="topBtn">↑</a>
+</div>
+
+<script>
+    // Tab switching
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const navLinks = document.querySelectorAll('.nav-item a');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-tab');
+            
+            // Update tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            // Update content
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === target) {
+                    content.classList.add('active');
+                }
+            });
+            
+            // Update nav selection
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-tab') === target) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    });
+
+    // Navigation links
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const target = link.getAttribute('data-tab');
+            
+            if (target) {
+                e.preventDefault();
+                
+                // Switch tabs if needed
+                tabs.forEach(tab => {
+                    if (tab.getAttribute('data-tab') === target) {
+                        tab.click();
+                    }
+                });
+                
+                // Update active state
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            }
+            
+            // Scroll to section if hash exists
+            const hash = link.getAttribute('href');
+            if (hash && hash.startsWith('#') && hash !== '#documentation' && hash !== '#tutorial') {
+                const section = document.querySelector(hash);
+                if (section) {
+                    setTimeout(() => {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                }
+            }
+        });
+    });
+
+    // Back to top button
+    const topBtn = document.getElementById('topBtn');
+    
+    window.addEventListener('scroll', () => {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            topBtn.classList.add('visible');
+        } else {
+            topBtn.classList.remove('visible');
+        }
+    });
+    
+    topBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Handle initial hash in URL if any
+    window.addEventListener('load', () => {
+        const hash = window.location.hash;
+        if (hash) {
+            const targetLink = document.querySelector(`a[href="${hash}"]`);
+            if (targetLink) {
+                targetLink.click();
+            }
+        }
+    });
+</script>
+</body>
+</html>
