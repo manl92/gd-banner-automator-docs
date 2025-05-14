@@ -8,7 +8,7 @@ GD Banner Automator is a Figma plugin designed to streamline the creation of mul
 
 ## Website
 
-Visit the documentation and tutorial at: [https://YOUR-USERNAME.github.io/YOUR-REPOSITORY-NAME](https://YOUR-USERNAME.github.io/YOUR-REPOSITORY-NAME)
+Visit the documentation and tutorial at: [https://manl92.github.io/gd-banner-automator-docs](https://manl92.github.io/gd-banner-automator-docs)
 
 ## Features
 
